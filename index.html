@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./json"></script>
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>Form</title> -->
+
+</head>
+    <body>
+        <div>
+            <form id="form" action="">
+                <fieldset>
+                    <legend>Razao Social</legend>
+                    <input id="razaoSocial" name="razaoSocial" value="opaa" type="text">
+                    <legend>Nome Fantasia</legend>
+                    <input id="nomeFantasia" name="nomeFantasia" type="text">
+                    <legend>CNPJ</legend>
+                    <input id="cnpj" name="cnpj" type="text">
+                    <legend>Inscricao estadual</legend>
+                    <input id="inscricaoEstadual" name="inscricaoEstadual" type="text">                   
+                    <legend>Inscricao Municipal</legend>
+                    <input id="inscricaoMunicipal" name="inscricaoMunicipal" type="text">
+                    <legend>CEP</legend>
+                <input id="cep" name="cep" type="text">
+                    <legend id="enderecoOutput"></legend>
+                    <legend>Nome da pessoa de contato</legend>
+                    <input id="nomeDaPessoaDeContato" name="nomeDaPessoaDeContato" type="text">
+                    <legend>Telefone</legend>
+                    <input id="telefone" name="telefone" type="text">
+                    <legend>Email</legend>
+                    <input id="email" name="email" type="text">
+                </fieldset>
+                <fieldset>
+                    <legend>Descricao</legend>
+                    <input id="descricao" name="descricao" type="text">
+                    <legend>Unidade de Medida</legend>
+                    <input id="unidadeDeMedida" name="unidadeDeMedida"  type="text">
+                    <legend>Quantidade em Estoque</legend>
+                    <input id="quantidadeEmEstoque" name="quantidadeEmEstoque"  type="text">
+                    <legend>Valor Unitário</legend>
+                    <input id="valorUnitario" name="valorUnitario"  type="text">
+                    <legend>Valor Total</legend>
+                    <input id="valorTotal" name="valorTotal"  type="text">
+                </fieldset>
+                <fieldset>
+                    <legend>Anexos</legend>
+                    <input type="file">
+                </fieldset>
+                <button type="submit">Salvar Fornecedor</button>
+            </form>
+        </div>
+    </body>
+</html>
+
+<script>
+
+ document.getElementById('form').addEventListener('submit', function (event) {
+
+     const formData = new FormData(this);
+     const formObject = {};
+
+     formData.forEach((value,key) => {
+         formObject[key] = value;
+     })
+     const formJson = JSON.stringify(formObject);
+     console.log(formJson)
+ })
+
+$('#cep').focusout(function(){
+    $.ajax({
+        url: 'https://viacep.com.br/ws/'+$(this).val()+'/json/unicode/',
+        dataType: 'json',
+        sucess: function(resposta){
+            $('#enderecoOutput').val(resposta.logradouro)
+            $('#enderecoOutput').val(resposta.complemento)
+            $('#enderecoOutput').val(resposta.bairro)
+            $('#enderecoOutput').val(resposta.localidade)
+            $('#enderecoOutput').val(resposta.uf)
+        }
+    })
+})
+
+
+</script>
